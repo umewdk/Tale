@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GPT API Example</title>
+	<script src="https://cdn.jsdelivr.net/npm/@openai/api@0.6.0/dist/index.js"></script>
+	<style>
+		input, textarea {
+			display: block;
+			margin: 10px 0;
+			padding: 5px;
+			font-size: 16px;
+			width: 100%;
+			border-radius: 5px;
+			border: 1px solid #ccc;
+		}
+		textarea {
+			height: 200px;
+		}
+		button {
+			background-color: #4CAF50;
+			color: white;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		#output {
+			margin-top: 20px;
+			padding: 10px;
+			font-size: 16px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+	</style>
+</head>
+<body>
+	<h1>GPT API Example</h1>
+	<label for="prompt">Enter a prompt:</label>
+	<input type="text" id="prompt" placeholder="e.g. What is the meaning of life?">
+	<label for="length">Response length:</label>
+	<input type="number" id="length" placeholder="e.g. 100">
+	<button onclick="generateResponse()">Generate Response</button>
+	<div id="output"></div>
+
+	<script>
+		const api_key = 'YOUR_API_KEY_HERE';
+		const model_engine = 'text-davinci-002';
+
+		const generateResponse = async () => {
+			const prompt = document.getElementById('prompt').value;
+			const length = parseInt(document.getElementById('length').value);
+
+			const openai = require('@openai/api');
+			const api = new openai(api_key);
+
+			const response = await api.completions.create({
+				engine: model_engine,
+				prompt: prompt,
+				max_tokens: length,
+			});
+
+			const output = response.choices[0].text;
+			document.getElementById('output').innerText = output;
+		};
+	</script>
+</body>
+</html>
